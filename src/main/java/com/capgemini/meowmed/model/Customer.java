@@ -29,10 +29,10 @@ public class Customer {
     public Customer(){
     }
 
-    public Customer(String firstname, String lastname, String adress) {
+    public Customer(String firstname, String lastname, String address) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.address = adress;
+        this.address = address;
     }
 
     public long getId() {
