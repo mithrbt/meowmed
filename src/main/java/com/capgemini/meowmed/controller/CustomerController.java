@@ -48,16 +48,16 @@ public class CustomerController {
 
     //Update customer
     @PutMapping("/kunden/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails) throws ResourceNotFoundException{
+    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long id,@Valid @RequestBody Customer customerDetails) throws ResourceNotFoundException{
 
-        Customer customer = customerRepository.findById(customerId)
-        .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit dieser id: " + customerId));
+        Customer customer = customerRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit dieser id: " + id));
 
         customer.setFirstname(customerDetails.getFirstname());
         customer.setLastname(customerDetails.getLastname());
         customer.setAddress(customerDetails.getAddress());
 
-        final Customer updateCustomer = customerRepository.save(customer);
+        Customer updateCustomer = customerRepository.save(customer);
         return ResponseEntity.ok(updateCustomer);
     }
 
