@@ -10,6 +10,9 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Enumerated(EnumType.ORDINAL)
     private Personality personality;
 
