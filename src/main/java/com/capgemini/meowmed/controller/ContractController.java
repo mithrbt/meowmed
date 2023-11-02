@@ -26,16 +26,16 @@ public class ContractController {
 
     //Get all contracts
     @GetMapping("/kunden/{customerID}/vertrag")
-    public List<Contract> getAllContracts(@PathVariable int customerID){
+    public List<Contract> getAllContractsByCustomerID(@PathVariable int customerID){
         return contractRepository.findByCustomerId(customerID);
     }
 
     //get contract by ID
     @GetMapping("/vertrag/{contractID}")
-    public ResponseEntity<Contract> getContractById(@PathVariable int customerID, @PathVariable int contractId) throws ResourceNotFoundException{
+    public ResponseEntity<Contract> getContractById(@PathVariable int contractID) throws ResourceNotFoundException{
 
-        Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractId));
+        Contract contract = contractRepository.findById(contractID)
+                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
 
         return ResponseEntity.ok().body(contract);
     }
