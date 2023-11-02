@@ -16,13 +16,11 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "beginn")
     private Date start;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "ende")
     private Date end;
 
