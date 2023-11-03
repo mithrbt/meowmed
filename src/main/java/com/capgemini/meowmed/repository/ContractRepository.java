@@ -1,5 +1,6 @@
 package com.capgemini.meowmed.repository;
 
+import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 

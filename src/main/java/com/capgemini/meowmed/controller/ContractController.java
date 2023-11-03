@@ -1,6 +1,7 @@
 package com.capgemini.meowmed.controller;
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
+import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.model.Customer;
 import com.capgemini.meowmed.repository.ContractRepository;
@@ -69,10 +70,8 @@ public class ContractController {
 
     //delete contract
     @DeleteMapping("vertrag/{contractID}")
-    public ResponseEntity<Map<String, Boolean>> deleteContract(@PathVariable int contractID) throws ResourceNotFoundException{
+    public void deleteContract(@PathVariable int contractID) throws ResourceNotFoundException{
         contractRepository.deleteById(contractID);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

@@ -23,4 +23,46 @@ public class Cat {
     @JoinColumn(name = "cat_id", referencedColumnName = "id")
     private Contract contract;
 
+    public Cat(String name, Personality personality, Environment environment, Contract contract) {
+        this.name = name;
+        this.personality = personality;
+        this.environment = environment;
+        this.contract = contract;
+    }
+
+    public Cat() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Personality getPersonality() {
+        return personality;
+    }
+
+    public void setPersonality(Personality personality) {
+        this.personality = personality;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
 }
