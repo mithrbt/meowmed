@@ -19,4 +19,8 @@ public class Cat {
     @Enumerated(EnumType.ORDINAL)
     private Environment environment;
 
+    @OneToOne
+    @JoinColumn(name = "cat_id", referencedColumnName = "id")
+    private Contract contract;
+
 }

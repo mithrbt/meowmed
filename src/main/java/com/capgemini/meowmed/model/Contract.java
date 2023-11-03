@@ -32,6 +32,8 @@ public class Contract {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToOne
+    private Cat cat;
 
     public Contract() {
 
