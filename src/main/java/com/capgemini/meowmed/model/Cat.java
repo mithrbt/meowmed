@@ -10,10 +10,17 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Enumerated(EnumType.ORDINAL)
     private Personality personality;
 
     @Enumerated(EnumType.ORDINAL)
     private Environment environment;
+
+    @OneToOne
+    @JoinColumn(name = "cat_id", referencedColumnName = "id")
+    private Contract contract;
 
 }

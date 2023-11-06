@@ -2,12 +2,9 @@
 
 package com.capgemini.meowmed.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "kunde")
@@ -26,6 +23,8 @@ public class Customer {
     @Column(name = "Adresse")
     private String address;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Contract> contracts;
     public Customer(){
     }
 
