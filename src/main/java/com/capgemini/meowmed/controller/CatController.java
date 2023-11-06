@@ -3,6 +3,7 @@ package com.capgemini.meowmed.controller;
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.Cat;
+import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class CatController {
     private ContractRepository contractRepository;
 
     //get all cats
-    @GetMapping("vertrag/{contractID}/katze")
-    public List<Cat> getAllCatsByContractID(@PathVariable int contractID){
-        return catRepository.findByContractId(contractID);
+    @GetMapping("/kunden/{customerID}/katze")
+    public List<Cat> getAllCatsByCustomerID(@PathVariable int customerID){
+        return catRepository.findByCustomerId(customerID);
     }
 
     //get cat by ID
@@ -40,13 +41,20 @@ public class CatController {
         return ResponseEntity.ok(cat);
     }
 
+    //get cat by contract ID
+    @GetMapping("/vertrag/{contractID}/katze")
+    public ResponseEntity<Cat> getCatByContractID(@PathVariable int contractID) throws ResourceNotFoundException{
+        return catRepository.findCatByContractId(contractID);
+    }
+
     //create cat
     @PostMapping("/vertrag/{contractID}/katze")
     public ResponseEntity<Cat> createCat(@PathVariable int contractID, @Valid @RequestBody Cat catRequest){
-        Cat cat = contractRepository.findById(contractID).map(contract -> {
-            catRequest.setContract(contract);
-            return catRepository.save(catRequest);
-        }).orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
+        Contract contract = contractRepository.findById(contractID)
+                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
+        catRequest.setContract(contract);
+
+        Cat cat = catRepository.save(catRequest);
 
         return new ResponseEntity<>(cat, HttpStatus.CREATED);
     }

@@ -23,8 +23,12 @@ public class Customer {
     @Column(name = "Adresse")
     private String address;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Contract> contracts;
+
+    @OneToMany
+    private List<Cat> cats;
+
     public Customer(){
     }
 
@@ -32,6 +36,22 @@ public class Customer {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
+    }
+
+    public List<Cat> getCats() {
+        return cats;
+    }
+
+    public void setCats(List<Cat> cats) {
+        this.cats = cats;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public int getId() {

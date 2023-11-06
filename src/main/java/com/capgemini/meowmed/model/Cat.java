@@ -20,8 +20,11 @@ public class Cat {
     private Environment environment;
 
     @OneToOne
-    @JoinColumn(name = "cat_id", referencedColumnName = "id")
     private Contract contract;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public Cat(String name, Personality personality, Environment environment, Contract contract) {
         this.name = name;
@@ -33,6 +36,23 @@ public class Cat {
     public Cat() {
 
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getName() {
         return name;
