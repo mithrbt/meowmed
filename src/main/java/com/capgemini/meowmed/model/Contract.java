@@ -1,6 +1,7 @@
 package com.capgemini.meowmed.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,11 +30,11 @@ public class Contract {
 
     //Jeder Vertrag kann nur einem Kunden zugeordnet werden, ein Kunde kann mehrere Vertäge haben
     @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "")
+    @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
-    @OneToOne
-    @JoinColumn(name = "cat_id")
+    @OneToOne (mappedBy = "contract")
     private Cat cat;
 
     public Contract() {

@@ -1,5 +1,6 @@
 package com.capgemini.meowmed.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,10 +21,13 @@ public class Cat {
     private Environment environment;
 
     @OneToOne
+    @JoinColumn(name = "contract_id")
+    @JsonIgnore
     private Contract contract;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name= "customer_id")
+    @JsonIgnore
     private Customer customer;
 
     public Cat(String name, Personality personality, Environment environment, Contract contract) {

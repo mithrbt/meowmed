@@ -10,5 +10,5 @@ public interface CatRepository extends JpaRepository<Cat, Integer> {
 
     public List<Cat> findByCustomerId(int customerID);
 
-    public ResponseEntity<Cat> findCatByContractId(int contractID);
+    public Cat findCatByContractId(int contractID);
 }

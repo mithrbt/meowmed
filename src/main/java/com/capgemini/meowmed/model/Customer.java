@@ -2,6 +2,7 @@
 
 package com.capgemini.meowmed.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,10 +24,12 @@ public class Customer {
     @Column(name = "Adresse")
     private String address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Contract> contracts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Cat> cats;
 
     public Customer(){

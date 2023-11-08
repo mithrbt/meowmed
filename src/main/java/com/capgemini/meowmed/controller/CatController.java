@@ -43,7 +43,7 @@ public class CatController {
 
     //get cat by contract ID
     @GetMapping("/vertrag/{contractID}/katze")
-    public ResponseEntity<Cat> getCatByContractID(@PathVariable int contractID) throws ResourceNotFoundException{
+    public Cat getCatByContractID(@PathVariable int contractID) throws ResourceNotFoundException{
         return catRepository.findCatByContractId(contractID);
     }
 
