@@ -1,9 +1,7 @@
 package com.capgemini.meowmed.controller;
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
-import com.capgemini.meowmed.model.Cat;
-import com.capgemini.meowmed.model.Contract;
-import com.capgemini.meowmed.model.Customer;
+import com.capgemini.meowmed.model.*;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +72,23 @@ public class ContractController {
         contractRepository.deleteById(contractID);
     }
 
+    static class Catract{
+        public Cat cat;
+        public Contract contract;
+    }
 
+    @PostMapping("vertrag/quote")
+    public double quote(@Valid @RequestBody Catract catract){
+        double quote = 5;
+        System.out.println(catract.cat.getColor());
+        if(catract.cat.getColor() == Color.SCHWARZ){
+            quote += catract.contract.getCoverage() * 0.2;
+            return quote;
+        }
+        quote += catract.contract.getCoverage() * 0.15;
+
+        return quote;
+    }
 
 
 }

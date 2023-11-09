@@ -14,11 +14,14 @@ public class Cat {
     @Column(name = "name")
     private String name;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Personality personality;
+    /*@Enumerated(EnumType.ORDINAL)
+    private Personality personality;*/
 
     @Enumerated(EnumType.ORDINAL)
     private Environment environment;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Color color;
 
     @OneToOne
     @JoinColumn(name = "contract_id")
@@ -32,13 +35,21 @@ public class Cat {
 
     public Cat(String name, Personality personality, Environment environment, Contract contract) {
         this.name = name;
-        this.personality = personality;
+        //this.personality = personality;
         this.environment = environment;
         this.contract = contract;
     }
 
     public Cat() {
 
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public Customer getCustomer() {
@@ -66,13 +77,13 @@ public class Cat {
         this.name = name;
     }
 
-    public Personality getPersonality() {
+    /*public Personality getPersonality() {
         return personality;
     }
 
     public void setPersonality(Personality personality) {
         this.personality = personality;
-    }
+    }*/
 
     public Environment getEnvironment() {
         return environment;

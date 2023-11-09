@@ -67,7 +67,7 @@ public class CatController {
 
         cat.setName(catRequest.getName());
         cat.setEnvironment(catRequest.getEnvironment());
-        cat.setPersonality(catRequest.getPersonality());
+        //cat.setPersonality(catRequest.getPersonality());
         cat.setContract(catRequest.getContract());
 
         final Cat updateCat = catRepository.save(cat);
