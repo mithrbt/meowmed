@@ -6,6 +6,7 @@ import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,9 +76,15 @@ public class CatController {
     }
 
     //delete cat
-    @DeleteMapping("cat/{catID}")
+    /*@DeleteMapping("cat/{catID}")
     public void deleteCat(@PathVariable int catID) throws ResourceNotFoundException{
         catRepository.deleteById(catID);
+    }*/
+
+    @Transactional
+    @DeleteMapping("katze/{contractID}")
+    public void deleteCatByContractID(@PathVariable int contractID){
+        catRepository.deleteCatByContractId(contractID);
     }
 
 }
