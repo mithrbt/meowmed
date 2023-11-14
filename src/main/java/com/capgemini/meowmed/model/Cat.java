@@ -1,27 +1,23 @@
 package com.capgemini.meowmed.model;
 
+import com.capgemini.meowmed.enums.Environment;
+import com.capgemini.meowmed.enums.Personality;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Katze")
-public class Cat {
+public class Cat extends Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
-    private String name;
-
-    /*@Enumerated(EnumType.ORDINAL)
-    private Personality personality;*/
+    @Enumerated(EnumType.ORDINAL)
+    private Personality personality;
 
     @Enumerated(EnumType.ORDINAL)
     private Environment environment;
-
-    @Enumerated(EnumType.ORDINAL)
-    private Color color;
 
     @OneToOne
     @JoinColumn(name = "contract_id")
@@ -33,23 +29,20 @@ public class Cat {
     @JsonIgnore
     private Customer customer;
 
-    public Cat(String name, Personality personality, Environment environment, Contract contract) {
-        this.name = name;
-        //this.personality = personality;
+    @ManyToOne
+    @JoinColumn(name= "breed_name")
+    @JsonIgnore
+    private Breed breed;
+
+    public Cat(Personality personality, Environment environment, Contract contract) {
+        super();
+        this.personality = personality;
         this.environment = environment;
         this.contract = contract;
     }
 
     public Cat() {
-
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        super();
     }
 
     public Customer getCustomer() {
@@ -68,22 +61,13 @@ public class Cat {
         this.id = id;
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /*public Personality getPersonality() {
+    public Personality getPersonality() {
         return personality;
     }
 
     public void setPersonality(Personality personality) {
         this.personality = personality;
-    }*/
+    }
 
     public Environment getEnvironment() {
         return environment;

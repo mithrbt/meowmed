@@ -1,4 +1,4 @@
-package com.capgemini.meowmed.model;
+package com.capgemini.meowmed.enums;
 
 public enum Personality {
     VERSPIELT, AUSGEGLICHEN;

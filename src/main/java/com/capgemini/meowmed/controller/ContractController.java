@@ -1,5 +1,7 @@
 package com.capgemini.meowmed.controller;
 
+import com.capgemini.meowmed.enums.Color;
+import com.capgemini.meowmed.enums.Environment;
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.*;
 import com.capgemini.meowmed.repository.ContractRepository;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -83,9 +84,21 @@ public class ContractController {
         System.out.println(catract.cat.getColor());
         if(catract.cat.getColor() == Color.SCHWARZ){
             quote += catract.contract.getCoverage() * 0.2;
+            if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
+                quote *= 1.1;
+            }
+            if(!catract.cat.isCastrated()){
+                quote += 5;
+            }
             return quote;
         }
         quote += catract.contract.getCoverage() * 0.15;
+        if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
+            quote *= 1.1;
+        }
+        if(!catract.cat.isCastrated()){
+            quote += 5;
+        }
 
         return quote;
     }

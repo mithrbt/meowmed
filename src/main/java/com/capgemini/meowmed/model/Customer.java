@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "kunde")
-public class Customer {
+public class Customer extends Person{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   
@@ -33,6 +33,7 @@ public class Customer {
     private List<Cat> cats;
 
     public Customer(){
+        super();
     }
 
     public Customer(String firstname, String lastname, String address) {

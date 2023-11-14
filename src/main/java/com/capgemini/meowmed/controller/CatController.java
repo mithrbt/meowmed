@@ -68,8 +68,11 @@ public class CatController {
 
         cat.setName(catRequest.getName());
         cat.setEnvironment(catRequest.getEnvironment());
-        //cat.setPersonality(catRequest.getPersonality());
-        cat.setContract(catRequest.getContract());
+        cat.setColor(catRequest.getColor());
+        cat.setPersonality(catRequest.getPersonality());
+        cat.setBirthdate(catRequest.getBirthdate());
+        cat.setWeight(catRequest.getWeight());
+        cat.setCastrated(catRequest.isCastrated());
 
         final Cat updateCat = catRepository.save(cat);
         return ResponseEntity.ok(updateCat);
