@@ -1,12 +1,9 @@
 package com.capgemini.meowmed.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -40,7 +37,6 @@ public class Contract {
     public Contract() {
 
     }
-
 
     public Contract(Date start, Date end, int coverage, Customer customer) {
         this.start = start;

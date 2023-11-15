@@ -2,8 +2,10 @@ package com.capgemini.meowmed.model;
 
 import com.capgemini.meowmed.enums.Color;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,7 +21,7 @@ public class Animal {
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name ="geburtsdatum")
-    private Date birthdate;
+    private LocalDate birthdate;
 
     @Column(name = "gewicht")
     private float weight;
@@ -35,7 +37,7 @@ public class Animal {
     public Animal(){
     }
 
-    public Animal(String name, Date birthdate, float weight, boolean castrated, Color color) {
+    public Animal(String name, LocalDate birthdate, float weight, boolean castrated, Color color) {
         this.name = name;
         this.birthdate = birthdate;
         this.weight = weight;
@@ -43,11 +45,11 @@ public class Animal {
         this.color = color;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 

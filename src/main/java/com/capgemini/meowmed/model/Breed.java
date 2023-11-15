@@ -14,11 +14,17 @@ public class Breed {
     @Id
     private String name;
 
-    @Column(name ="norm_gewicht")
-    private float standard_weight;
+    @Column(name ="min_gewicht")
+    private float minWeight;
 
-    @Column(name = "norm_alter")
-    private int standard_age;
+    @Column(name ="max_gewicht")
+    private float maxWeight;
+
+    @Column(name = "min_alter")
+    private int minAverageAge;
+
+    @Column(name = "max_alter")
+    private int maxAverageAge;
 
     @Column(name = "krankheitswahrscheinlichkeit")
     private float probabilityOfIllness;
@@ -27,10 +33,12 @@ public class Breed {
     @JsonIgnore
     private List<Cat> cats;
 
-    public Breed(String name, float standard_weight, int standard_age, float probabilityOfIllness) {
+    public Breed(String name, float min_weight,float max_weight, int minAverageAge, int maxAverageAge, float probabilityOfIllness) {
         this.name = name;
-        this.standard_weight = standard_weight;
-        this.standard_age = standard_age;
+        this.minWeight = min_weight;
+        this.maxWeight = max_weight;
+        this.minAverageAge = minAverageAge;
+        this.maxAverageAge = maxAverageAge;
         this.probabilityOfIllness = probabilityOfIllness;
     }
 
@@ -45,20 +53,44 @@ public class Breed {
         this.name = name;
     }
 
-    public float getStandard_weight() {
-        return standard_weight;
+    public float getMinWeight() {
+        return minWeight;
     }
 
-    public void setStandard_weight(float standard_weight) {
-        this.standard_weight = standard_weight;
+    public void setMinWeight(float minWeight) {
+        this.minWeight = minWeight;
     }
 
-    public int getStandard_age() {
-        return standard_age;
+    public float getMaxWeight() {
+        return maxWeight;
     }
 
-    public void setStandard_age(int standard_age) {
-        this.standard_age = standard_age;
+    public void setMaxWeight(float maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public int getMinAverageAge() {
+        return minAverageAge;
+    }
+
+    public void setMinAverageAge(int minAverageAge) {
+        this.minAverageAge = minAverageAge;
+    }
+
+    public int getMaxAverageAge() {
+        return maxAverageAge;
+    }
+
+    public void setMaxAverageAge(int maxAverageAge) {
+        this.maxAverageAge = maxAverageAge;
+    }
+
+    public List<Cat> getCats() {
+        return cats;
+    }
+
+    public void setCats(List<Cat> cats) {
+        this.cats = cats;
     }
 
     public float getProbabilityOfIllness() {

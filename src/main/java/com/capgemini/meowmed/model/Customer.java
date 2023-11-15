@@ -2,9 +2,12 @@
 
 package com.capgemini.meowmed.model;
 
+import com.capgemini.meowmed.enums.FamilyStatus;
+import com.capgemini.meowmed.enums.Profession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,14 +18,11 @@ public class Customer extends Person{
     @GeneratedValue(strategy = GenerationType.IDENTITY)   
     private int id;
 
-    @Column(name = "Vorname")
-    private String firstname;
+    @Column(name ="bruttoEinkommen")
+    private float income;
 
-    @Column(name = "Nachname")
-    private String lastname;
-
-    @Column(name = "Adresse")
-    private String address;
+    @Column(name = "berufsstand")
+    private Profession profession;
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
@@ -36,10 +36,12 @@ public class Customer extends Person{
         super();
     }
 
-    public Customer(String firstname, String lastname, String address) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
+    public Customer(Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats) {
+        super(birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
+        this.income = income;
+        this.profession = profession;
+        this.contracts = contracts;
+        this.cats = cats;
     }
 
     public List<Cat> getCats() {
@@ -66,30 +68,19 @@ public class Customer extends Person{
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public float getIncome() {
+        return income;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setIncome(float income) {
+        this.income = income;
     }
 
-    public String getLastname() {
-        return lastname;
+    public Profession getProfession() {
+        return profession;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setProfession(Profession profession) {
+        this.profession = profession;
     }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    
-    
 }
