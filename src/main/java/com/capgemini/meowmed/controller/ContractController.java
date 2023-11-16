@@ -4,6 +4,7 @@ import com.capgemini.meowmed.enums.Color;
 import com.capgemini.meowmed.enums.Environment;
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.*;
+import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ContractController {
     private ContractRepository contractRepository;
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private BreedRepository breedRepository;
 
     //Get all contracts
     @GetMapping("/kunden/{customerID}/vertrag")
@@ -91,7 +95,15 @@ public class ContractController {
         long age = ChronoUnit.YEARS.between(catract.cat.getBirthdate(), curDate);
         double age25;
 
-        age25 = catract.cat.getBreed().getMaxAverageAge() - ((catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25);
+        /*for(Breed b: breedRepository.findAll()){
+            if(b.getName().equals(catract.cat.getBreed().getName())){
+
+            }
+        }*/
+
+        age25 = breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxAverageAge()
+                - ((breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxAverageAge()
+                - breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMinAverageAge()) * 0.25);
 
         double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.2
                 : min + catract.contract.getCoverage() * 0.15;
@@ -103,8 +115,8 @@ public class ContractController {
             if(!catract.cat.isCastrated()){
                 quote += 5;
             }
-            if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()) {
-                double overweight = catract.cat.getBreed().getMaxWeight() - catract.cat.getWeight();
+            if(catract.cat.getWeight() > breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxWeight()) {
+                double overweight = breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxWeight() - catract.cat.getWeight();
                 quote += (overweight * 5);
             }
             if(age <= 2){
