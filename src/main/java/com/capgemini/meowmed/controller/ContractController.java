@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -93,43 +92,35 @@ public class ContractController {
         double quote = 0;
         LocalDate curDate = LocalDate.now();
         long age = ChronoUnit.YEARS.between(catract.cat.getBirthdate(), curDate);
-        double age25;
 
-        /*for(Breed b: breedRepository.findAll()){
-            if(b.getName().equals(catract.cat.getBreed().getName())){
+        double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.0002
+                : min + catract.contract.getCoverage() * 0.00015;
 
-            }
-        }*/
+        double age25 = catract.cat.getBreed().getMaxAverageAge()
+                        - (catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25;
 
-        age25 = breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxAverageAge()
-                - ((breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxAverageAge()
-                - breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMinAverageAge()) * 0.25);
-
-        double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.2
-                : min + catract.contract.getCoverage() * 0.15;
-
-
-            if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
-                quote += (basicValue * 1.1);
-            }
-            if(!catract.cat.isCastrated()){
-                quote += 5;
-            }
-            if(catract.cat.getWeight() > breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxWeight()) {
-                double overweight = breedRepository.findBreedByName(catract.cat.getBreed().getName()).getMaxWeight() - catract.cat.getWeight();
-                quote += (overweight * 5);
-            }
-            if(age <= 2){
-                basicValue -= (basicValue * 0.1);
-            }
-            if(age >= age25){
-                basicValue += (basicValue * 0.2);
-            }
-            if(catract.customer.getAddress().getZipCode() == 7 || catract.customer.getAddress().getZipCode() == 8){
-                basicValue += (basicValue * 0.05);
-            }
+        if(age <= 2){
+            basicValue -= (basicValue * 0.1);
+        }
+        if(age >= age25){
+            basicValue += (basicValue * 0.2);
+        }
+        if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()){
+            double overweight = catract.cat.getBreed().getMaxWeight() - catract.cat.getWeight();
+            quote += (overweight * 5);
+        }
 
         quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
+
+        if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
+            quote += (basicValue * 1.1);
+        }
+        if(!catract.cat.isCastrated()){
+            quote += 5;
+        }
+        if(catract.customer.getAddress().getZipCode() == 7 || catract.customer.getAddress().getZipCode() == 8){
+            basicValue += (basicValue * 0.05);
+        }
 
         return quote;
     }

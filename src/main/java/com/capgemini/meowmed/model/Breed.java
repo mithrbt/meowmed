@@ -31,6 +31,7 @@ public class Breed {
     @JsonIgnore
     private List<Cat> cats;
 
+
     public Breed(String name, float min_weight,float max_weight, int minAverageAge, int maxAverageAge, float probabilityOfIllness) {
         this.name = name;
         this.minWeight = min_weight;
@@ -83,13 +84,13 @@ public class Breed {
         this.maxAverageAge = maxAverageAge;
     }
 
-    public List<Cat> getCats() {
+    /*public List<Cat> getCats() {
         return cats;
     }
 
     public void setCats(List<Cat> cats) {
         this.cats = cats;
-    }
+    }*/
 
     public float getProbabilityOfIllness() {
         return probabilityOfIllness;

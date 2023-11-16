@@ -33,9 +33,10 @@ public class Cat extends Animal {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name= "breed_name")
+    @JoinColumn(name= "breed_id")
     @JsonIgnore
     private Breed breed;
+
 
     public Cat(String name, LocalDate birthdate, float weight, boolean castrated, Color color, Personality personality, Environment environment, Contract contract, Customer customer, Breed breed) {
         super(name, birthdate, weight, castrated, color);
@@ -43,7 +44,7 @@ public class Cat extends Animal {
         this.environment = environment;
         this.contract = contract;
         this.customer = customer;
-        this.breed = breed;
+        //this.breed = breed;
     }
 
     public Cat() {

@@ -2,8 +2,10 @@ package com.capgemini.meowmed.controller;
 
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
+import com.capgemini.meowmed.model.Breed;
 import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Contract;
+import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -26,6 +29,9 @@ public class CatController {
 
     @Autowired
     private ContractRepository contractRepository;
+
+    @Autowired
+    private BreedRepository breedRepository;
 
     //get all cats
     @GetMapping("/kunden/{customerID}/katze")
@@ -51,6 +57,13 @@ public class CatController {
     //create cat
     @PostMapping("/vertrag/{contractID}/katze")
     public ResponseEntity<Cat> createCat(@PathVariable int contractID, @Valid @RequestBody Cat catRequest){
+        /*Optional<Breed> optionalBreed = breedRepository.findById(catRequest.getBreed().getName());
+        if(optionalBreed.isPresent()){
+            catRequest.setBreed(optionalBreed.get());
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new Cat());
+        }*/
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
         catRequest.setContract(contract);
