@@ -34,6 +34,9 @@ public class Person {
     @Column(name = "telefonnummer")
     private long phone_number;
 
+    @Column(name = "adresse")
+    private long addressID;
+
     @Enumerated(EnumType.ORDINAL)
     private Titel titel;
 
