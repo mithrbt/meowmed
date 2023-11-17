@@ -22,6 +22,8 @@ public class Cat extends Animal {
     @Enumerated(EnumType.ORDINAL)
     private Environment environment;
 
+    private String breedname;
+
     @OneToOne
     @JoinColumn(name = "contract_id")
     @JsonIgnore
@@ -44,11 +46,19 @@ public class Cat extends Animal {
         this.environment = environment;
         this.contract = contract;
         this.customer = customer;
-        //this.breed = breed;
+        this.breed = breed;
     }
 
     public Cat() {
         super();
+    }
+
+    public String getBreedname() {
+        return breedname;
+    }
+
+    public void setBreedname(String breedname) {
+        this.breedname = breedname;
     }
 
     public Breed getBreed() {

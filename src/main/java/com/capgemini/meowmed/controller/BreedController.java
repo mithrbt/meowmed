@@ -4,7 +4,6 @@ import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.Breed;
 import com.capgemini.meowmed.repository.BreedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,4 +20,5 @@ public class BreedController {
     public List<Breed> getAllBreeds(){
         return breedRepository.findAll();
     }
+
 }

@@ -25,14 +25,14 @@ public class Breed {
     private int maxAverageAge;
 
     @Column(name = "krankheitswahrscheinlichkeit")
-    private float probabilityOfIllness;
+    private double probabilityOfIllness;
 
     @OneToMany
     @JsonIgnore
     private List<Cat> cats;
 
 
-    public Breed(String name, float min_weight,float max_weight, int minAverageAge, int maxAverageAge, float probabilityOfIllness) {
+    public Breed(String name, float min_weight,float max_weight, int minAverageAge, int maxAverageAge, double probabilityOfIllness) {
         this.name = name;
         this.minWeight = min_weight;
         this.maxWeight = max_weight;
@@ -84,19 +84,19 @@ public class Breed {
         this.maxAverageAge = maxAverageAge;
     }
 
-    /*public List<Cat> getCats() {
+    public List<Cat> getCats() {
         return cats;
     }
 
     public void setCats(List<Cat> cats) {
         this.cats = cats;
-    }*/
+    }
 
-    public float getProbabilityOfIllness() {
+    public double getProbabilityOfIllness() {
         return probabilityOfIllness;
     }
 
-    public void setProbabilityOfIllness(float probabilityOfIllness) {
+    public void setProbabilityOfIllness(double probabilityOfIllness) {
         this.probabilityOfIllness = probabilityOfIllness;
     }
 }

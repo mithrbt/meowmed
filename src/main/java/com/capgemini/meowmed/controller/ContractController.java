@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -92,12 +93,15 @@ public class ContractController {
         double quote = 0;
         LocalDate curDate = LocalDate.now();
         long age = ChronoUnit.YEARS.between(catract.cat.getBirthdate(), curDate);
+        Optional<Breed> optionalBreed = breedRepository.findById(catract.cat.getBreedname());
+        
 
         double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.0002
                 : min + catract.contract.getCoverage() * 0.00015;
 
-        double age25 = catract.cat.getBreed().getMaxAverageAge()
-                        - (catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25;
+        
+        double age25 = optionalBreed.get().getMaxAverageAge()
+                        - (optionalBreed.get().getMaxAverageAge() - optionalBreed.get().getMinAverageAge()) * 0.25;
 
         if(age <= 2){
             basicValue -= (basicValue * 0.1);
@@ -105,12 +109,12 @@ public class ContractController {
         if(age >= age25){
             basicValue += (basicValue * 0.2);
         }
-        if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()){
-            double overweight = catract.cat.getBreed().getMaxWeight() - catract.cat.getWeight();
+        if(catract.cat.getWeight() > optionalBreed.get().getMaxWeight()){
+            double overweight = optionalBreed.get().getMaxWeight() - catract.cat.getWeight();
             quote += (overweight * 5);
         }
 
-        quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
+        quote += basicValue + optionalBreed.get().getProbabilityOfIllness();
 
         if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
             quote += (basicValue * 1.1);
