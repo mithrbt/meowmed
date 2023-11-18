@@ -21,4 +21,8 @@ public class BreedController {
         return breedRepository.findAll();
     }
 
+    @GetMapping("rassen/{rassenName}")
+    public Breed getBreedById(@PathVariable String rassenName) throws ResourceNotFoundException{
+        return breedRepository.findBreedByName(rassenName);
+    }
 }

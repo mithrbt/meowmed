@@ -57,13 +57,6 @@ public class CatController {
     //create cat
     @PostMapping("/vertrag/{contractID}/katze")
     public ResponseEntity<Cat> createCat(@PathVariable int contractID, @Valid @RequestBody Cat catRequest){
-        Optional<Breed> optionalBreed = breedRepository.findById(catRequest.getBreedname());
-        if(optionalBreed.isPresent()){
-            catRequest.setBreed(optionalBreed.get());
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new Cat());
-        }
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
         catRequest.setContract(contract);
