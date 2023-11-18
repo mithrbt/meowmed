@@ -99,8 +99,6 @@ public class ContractController {
         LocalDate curDate = LocalDate.now();
         long age = ChronoUnit.YEARS.between(catract.cat.getBirthdate(), curDate);
 
-
-
         double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.0002
                 : min + catract.contract.getCoverage() * 0.00015;
 
@@ -108,28 +106,29 @@ public class ContractController {
         double age25 = catract.cat.getBreed().getMaxAverageAge()
                         - (catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25;
 
-        if(age <= 2){
-            basicValue -= (basicValue * 0.1);
+        quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
+
+        if(catract.customer.getAddress().getZipCode() == 7 || catract.customer.getAddress().getZipCode() == 8){
+            quote += (basicValue * 0.05);
         }
         if(age >= age25){
-            basicValue += (basicValue * 0.2);
+            quote += (basicValue * 0.2);
         }
         if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()){
             double overweight = catract.cat.getBreed().getMaxWeight() - catract.cat.getWeight();
             quote += (overweight * 5);
         }
 
-        quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
-
         if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
-            quote += (basicValue * 1.1);
+            quote += (basicValue * 0.1);
         }
         if(!catract.cat.isCastrated()){
             quote += 5;
         }
-        if(catract.customer.getAddress().getZipCode() == 7 || catract.customer.getAddress().getZipCode() == 8){
-            basicValue += (basicValue * 0.05);
+        if(age <= 2){
+            quote -= (basicValue * 0.1);
         }
+
 
         return quote;
     }
