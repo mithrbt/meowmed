@@ -65,7 +65,6 @@ public class ContractController {
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
 
-        contract.setCustomer(contractRequest.getCustomer());
         contract.setCoverage(contractRequest.getCoverage());
         contract.setEnd(contractRequest.getEnd());
         contract.setStart(contractRequest.getStart());

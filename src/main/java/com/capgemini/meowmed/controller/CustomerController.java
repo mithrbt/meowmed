@@ -57,6 +57,14 @@ public class CustomerController {
         customer.setFirstname(customerDetails.getFirstname());
         customer.setLastname(customerDetails.getLastname());
         customer.setAddress(customerDetails.getAddress());
+        customer.setIncome(customerDetails.getIncome());
+        customer.setProfession(customerDetails.getProfession());
+        customer.setBirthdate(customerDetails.getBirthdate());
+        customer.setTaxID(customerDetails.getTaxID());
+        customer.setSvn(customerDetails.getSvn());
+        customer.setTelNr(customerDetails.getTelNr());
+        customer.setFamilyStatus(customerDetails.getFamilyStatus());
+
 
         final Customer updateCustomer = customerRepository.save(customer);
         return ResponseEntity.ok(updateCustomer);
