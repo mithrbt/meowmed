@@ -68,6 +68,7 @@ public class ContractController {
         contract.setCoverage(contractRequest.getCoverage());
         contract.setEnd(contractRequest.getEnd());
         contract.setStart(contractRequest.getStart());
+        contract.setContribution(contractRequest.getContribution());
 
         final Contract updateContract = contractRepository.save(contract);
         return ResponseEntity.ok(updateContract);
@@ -127,7 +128,6 @@ public class ContractController {
         if(age <= 2){
             quote -= (basicValue * 0.1);
         }
-
 
         return quote;
     }
