@@ -74,9 +74,14 @@ public class ContractController {
     }
 
     //delete contract
-    @DeleteMapping("vertrag/{contractID}")
+    @DeleteMapping("/vertrag/{contractID}")
     public void deleteContract(@PathVariable int contractID) throws ResourceNotFoundException{
         contractRepository.deleteById(contractID);
+    }
+
+    @DeleteMapping("/vertraege/{customerID}")
+    public void deleteAllByCustomerID(@PathVariable int customerID) throws ResourceNotFoundException{
+        contractRepository.deleteAllByCustomerId(customerID);
     }
 
     static class Catract{
@@ -114,7 +119,7 @@ public class ContractController {
             quote += (basicValue * 0.2);
         }
         if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()){
-            double overweight = catract.cat.getBreed().getMaxWeight() - catract.cat.getWeight();
+            double overweight = catract.cat.getWeight() - catract.cat.getBreed().getMaxWeight();
             quote += (overweight * 5);
         }
 
