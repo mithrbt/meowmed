@@ -7,6 +7,7 @@ import com.capgemini.meowmed.model.*;
 import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,9 +80,10 @@ public class ContractController {
         contractRepository.deleteById(contractID);
     }
 
+    @Transactional
     @DeleteMapping("/vertraege/{customerID}")
     public void deleteAllByCustomerID(@PathVariable int customerID) throws ResourceNotFoundException{
-        contractRepository.deleteAllByCustomerId(customerID);
+        contractRepository.deleteByCustomerId(customerID);
     }
 
     static class Catract{

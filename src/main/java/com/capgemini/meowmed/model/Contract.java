@@ -25,6 +25,9 @@ public class Contract {
     @Column(name = "deckung")
     private int coverage;
 
+    @Column(name = "monatlBeitrag")
+    private double quote;
+
     //Jeder Vertrag kann nur einem Kunden zugeordnet werden, ein Kunde kann mehrere Vertäge haben
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -38,11 +41,20 @@ public class Contract {
 
     }
 
-    public Contract(Date start, Date end, int coverage, Customer customer) {
+    public Contract(Date start, Date end, int coverage, Customer customer, double quote) {
         this.start = start;
         this.end = end;
         this.coverage = coverage;
         this.customer = customer;
+        this.quote = quote;
+    }
+
+    public double getQuote() {
+        return quote;
+    }
+
+    public void setQuote(double quote) {
+        this.quote = quote;
     }
 
     public Cat getCat() {

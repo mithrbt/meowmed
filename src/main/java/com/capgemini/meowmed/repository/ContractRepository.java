@@ -11,5 +11,5 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
     //Alle Verträge eines Kundens
     public List<Contract> findByCustomerId(int customerID);
 
-    void deleteAllByCustomerId(int customerID);
+    void deleteByCustomerId(int customerID);
 }

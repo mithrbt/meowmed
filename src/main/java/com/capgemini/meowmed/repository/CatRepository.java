@@ -13,4 +13,6 @@ public interface CatRepository extends JpaRepository<Cat, Integer> {
     public Cat findCatByContractId(int contractID);
 
     public void deleteCatByContractId(int contractID);
+
+    public void deleteByCustomerId(int customerID);
 }
