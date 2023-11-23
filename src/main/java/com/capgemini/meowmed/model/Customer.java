@@ -36,8 +36,8 @@ public class Customer extends Person{
         super();
     }
 
-    public Customer(Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats) {
-        super(birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
+    public Customer(BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats) {
+        super(bankDetails, birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
         this.income = income;
         this.profession = profession;
         this.contracts = contracts;

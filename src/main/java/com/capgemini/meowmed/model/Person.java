@@ -13,8 +13,9 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    /*@Column(name = "bankverbindung")
-    private long bank_details;*/
+    @Embedded
+    @Column(name = "bankverbindung")
+    private BankDetails bankDetails;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "geburtsdatum")
@@ -50,8 +51,8 @@ public class Person {
     public Person(){}
 
 
-    public Person(Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus) {
-        //this.bank_details = bank_details;
+    public Person(BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus) {
+        this.bankDetails = bankDetails;
         this.birthdate = birthdate;
         this.address = address;
         this.firstname = firstname;
@@ -72,13 +73,13 @@ public class Person {
         this.id = id;
     }
 
-    /*public long getBank_details() {
-        return bank_details;
+    public BankDetails getBankDetails() {
+        return bankDetails;
     }
 
-    public void setBank_details(long bank_details) {
-        this.bank_details = bank_details;
-    }*/
+    public void setBankDetails(BankDetails bankDetails) {
+        this.bankDetails = bankDetails;
+    }
 
     public Date getBirthdate() {
         return birthdate;
