@@ -31,6 +31,10 @@ public class Customer extends Person{
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Cat> cats;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "picture_id", referencedColumnName = "id")
+    private Picture picture;
+
 
     public Customer(){
         super();
@@ -82,5 +86,9 @@ public class Customer extends Person{
 
     public void setProfession(Profession profession) {
         this.profession = profession;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }
