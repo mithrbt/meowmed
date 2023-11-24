@@ -4,10 +4,13 @@ import com.capgemini.meowmed.enums.FamilyStatus;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public class Person {
+public class Person implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +19,9 @@ public class Person {
     @Embedded
     @Column(name = "bankverbindung")
     private BankDetails bankDetails;
+
+    @Column
+    private byte[] encryptedBankDetails;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "geburtsdatum")
@@ -79,6 +85,14 @@ public class Person {
 
     public void setBankDetails(BankDetails bankDetails) {
         this.bankDetails = bankDetails;
+    }
+
+    public byte[] getEncryptedBankDetails() {
+        return encryptedBankDetails;
+    }
+
+    public void setEncryptedBankDetails(byte[] encryptedBankDetails) {
+        this.encryptedBankDetails = encryptedBankDetails;
     }
 
     public Date getBirthdate() {

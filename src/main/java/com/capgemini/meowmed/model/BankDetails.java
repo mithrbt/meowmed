@@ -2,8 +2,12 @@ package com.capgemini.meowmed.model;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
+
 @Embeddable
-public class BankDetails {
+public class BankDetails implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name;
 
