@@ -35,7 +35,7 @@ public class Person {
    private long taxID;
 
    @Column(name = "svn")
-   private long svn;
+   private String svn;
 
    @Column(name = "telefonnummer")
    private long telNr;
@@ -51,7 +51,7 @@ public class Person {
     public Person(){}
 
 
-    public Person(BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, long svn, long telNr, FamilyStatus familyStatus) {
+    public Person(BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus) {
         this.bankDetails = bankDetails;
         this.birthdate = birthdate;
         this.address = address;
@@ -121,11 +121,11 @@ public class Person {
         this.taxID = taxID;
     }
 
-    public long getSvn() {
+    public String getSvn() {
         return svn;
     }
 
-    public void setSvn(long svn) {
+    public void setSvn(String svn) {
         this.svn = svn;
     }
 
