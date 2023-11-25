@@ -64,6 +64,7 @@ public class CustomerController {
         customer.setSvn(customerDetails.getSvn());
         customer.setTelNr(customerDetails.getTelNr());
         customer.setFamilyStatus(customerDetails.getFamilyStatus());
+        customer.setBankDetails(customerDetails.getBankDetails());
 
 
         final Customer updateCustomer = customerRepository.save(customer);
