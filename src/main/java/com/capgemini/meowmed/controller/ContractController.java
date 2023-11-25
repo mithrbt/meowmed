@@ -68,7 +68,7 @@ public class ContractController {
 
         contract.setCoverage(contractRequest.getCoverage());
         contract.setEnd(contractRequest.getEnd());
-
+        
 
         final Contract updateContract = contractRepository.save(contract);
         return ResponseEntity.ok(updateContract);

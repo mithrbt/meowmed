@@ -82,11 +82,8 @@ public class CatController {
         Cat cat = catRepository.findById(catID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keine Katze mit der ID: " + catID));
 
-        cat.setName(catRequest.getName());
         cat.setEnvironment(catRequest.getEnvironment());
-        cat.setColor(catRequest.getColor());
         cat.setPersonality(catRequest.getPersonality());
-        cat.setBirthdate(catRequest.getBirthdate());
         cat.setWeight(catRequest.getWeight());
         cat.setCastrated(catRequest.isCastrated());
 
@@ -94,11 +91,6 @@ public class CatController {
         return ResponseEntity.ok(updateCat);
     }
 
-    //delete cat
-    /*@DeleteMapping("cat/{catID}")
-    public void deleteCat(@PathVariable int catID) throws ResourceNotFoundException{
-        catRepository.deleteById(catID);
-    }*/
 
     @Transactional
     @DeleteMapping("katze/{contractID}")
