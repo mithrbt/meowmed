@@ -4,13 +4,18 @@ import com.capgemini.meowmed.enums.Color;
 import com.capgemini.meowmed.enums.Environment;
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.*;
-import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
+import com.capgemini.meowmed.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,6 +23,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 @CrossOrigin("*")
 @RestController
@@ -30,7 +36,7 @@ public class ContractController {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private BreedRepository breedRepository;
+    private EmailService emailService;
 
     //Get all contracts
     @GetMapping("/kunden/{customerID}/vertrag")
@@ -50,14 +56,19 @@ public class ContractController {
 
     //create contract
     @PostMapping("/kunden/{customerID}/vertrag")
-    public ResponseEntity<Contract> createContract(@PathVariable int customerID, @Valid @RequestBody Contract contractRequest){
+    public ResponseEntity<Contract> createContract(@PathVariable int customerID, @Valid @RequestBody Contract contractRequest) throws MessagingException {
         Contract contract = customerRepository.findById(customerID).map(customer -> {
             contractRequest.setCustomer(customer);
             return contractRepository.save(contractRequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerID));
 
+        String email = customerRepository.findById(customerID).get().getEmail();
+        emailService.sendEmailWithAttachment(email);
+
+
         return new ResponseEntity<>(contract, HttpStatus.CREATED);
     }
+
 
 
     //update contract

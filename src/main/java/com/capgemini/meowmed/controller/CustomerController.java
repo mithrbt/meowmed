@@ -2,6 +2,8 @@ package com.capgemini.meowmed.controller;
 
 import javax.validation.Valid;
 
+import com.capgemini.meowmed.model.Contract;
+import com.capgemini.meowmed.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private ContractRepository contractRepository;
+
 
     //Read all customers
     @GetMapping("/kunden")
@@ -40,6 +45,7 @@ public class CustomerController {
 
             return ResponseEntity.ok().body(customer);
     }
+
 
     //Create customer
     @PostMapping("/kunden")
