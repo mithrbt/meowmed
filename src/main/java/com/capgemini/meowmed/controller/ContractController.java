@@ -35,8 +35,6 @@ public class ContractController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private EmailService emailService;
 
     //Get all contracts
     @GetMapping("/kunden/{customerID}/vertrag")
@@ -61,9 +59,6 @@ public class ContractController {
             contractRequest.setCustomer(customer);
             return contractRepository.save(contractRequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerID));
-
-        String email = customerRepository.findById(customerID).get().getEmail();
-        emailService.sendEmailWithAttachment(email);
 
 
         return new ResponseEntity<>(contract, HttpStatus.CREATED);

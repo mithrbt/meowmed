@@ -10,6 +10,8 @@ import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
+import com.capgemini.meowmed.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,10 @@ public class CatController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+
     //get all cats
     @GetMapping("/kunden/{customerID}/katze")
     public List<Cat> getAllCatsByCustomerID(@PathVariable int customerID){
@@ -61,7 +67,7 @@ public class CatController {
 
     //create cat
     @PostMapping("/kunden/{customerID}/vertrag/{contractID}/katze")
-    public ResponseEntity<Cat> createCat(@PathVariable int customerID, @PathVariable int contractID, @Valid @RequestBody Cat catRequest){
+    public ResponseEntity<Cat> createCat(@PathVariable int customerID, @PathVariable int contractID, @Valid @RequestBody Cat catRequest) throws MessagingException {
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
         catRequest.setContract(contract);
@@ -72,6 +78,9 @@ public class CatController {
         catRequest.setCustomer(customer);
 
         Cat cat = catRepository.save(catRequest);
+
+        String email = customer.getEmail();
+        emailService.sendEmailWithAttachment(email, customer, cat);
 
         return new ResponseEntity<>(cat, HttpStatus.CREATED);
     }
