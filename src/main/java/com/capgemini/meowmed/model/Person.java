@@ -1,13 +1,15 @@
 package com.capgemini.meowmed.model;
 
+import com.capgemini.meowmed.controller.EncryptDecryptService;
 import com.capgemini.meowmed.enums.FamilyStatus;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public class Person {
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

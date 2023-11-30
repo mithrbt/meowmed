@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class BankDetails {
 
+
     private String accountholder;
 
     private String bank_name;
@@ -22,9 +23,11 @@ public class BankDetails {
 
     }
 
+
     public String getAccountholder() {
         return accountholder;
     }
+
 
     public void setAccountholder(String name) {
         this.accountholder = name;
