@@ -2,6 +2,7 @@ package com.capgemini.meowmed.controller;
 
 import javax.validation.Valid;
 
+import com.capgemini.meowmed.enums.Profession;
 import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,12 @@ public class CustomerController {
 
     //Create customer
     @PostMapping("/kunden")
-    public Customer createCustomer(@Valid @RequestBody Customer customer){
-        return customerRepository.save(customer);
+    public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer){
+        if (customer.getProfession() == Profession.UNEMPLOYED) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Der Kunde darf nicht arbeitslos sein.");
+        }
+
+        return ResponseEntity.ok(customer);
     }
 
     //Update customer
