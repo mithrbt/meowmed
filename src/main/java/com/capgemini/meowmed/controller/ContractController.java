@@ -52,6 +52,7 @@ public class ContractController {
         return ResponseEntity.ok().body(contract);
     }
 
+
     //create contract
     @PostMapping("/kunden/{customerID}/vertrag")
     public ResponseEntity<Contract> createContract(@PathVariable int customerID, @Valid @RequestBody Contract contractRequest) throws MessagingException {
@@ -64,6 +65,13 @@ public class ContractController {
         return new ResponseEntity<>(contract, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{contractID}/customer")
+    public Customer getCustomerByContractId(@PathVariable int contractID){
+        Contract contract = contractRepository.findById(contractID)
+                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
+        return contract.getCustomer();
+    }
+
 
 
     //update contract
@@ -74,6 +82,7 @@ public class ContractController {
 
         contract.setCoverage(contractRequest.getCoverage());
         contract.setEnd(contractRequest.getEnd());
+        contract.setQuote(contractRequest.getQuote());
         
 
         final Contract updateContract = contractRepository.save(contract);

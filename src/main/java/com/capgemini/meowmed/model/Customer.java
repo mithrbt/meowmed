@@ -35,18 +35,28 @@ public class Customer extends Person{
     @JsonIgnore
     private List<Cat> cats;
 
+    /*@OneToOne(mappedBy = "customer")
+    @JsonIgnore
+    private Image customerImage;*/
+
+    @Lob
+    @Column(name="profile_picture", nullable=false, columnDefinition="mediumblob")
+    private byte[] profilePicture;
+
     public Customer(){
         super();
     }
 
-    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats) {
+    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats, byte[] profilePicture) {
         super(bankDetails, birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
         this.income = income;
         this.profession = profession;
         this.contracts = contracts;
         this.cats = cats;
         this.email = email;
+        this.profilePicture = profilePicture;
     }
+
 
     public String getEmail() {
         return email;
@@ -94,5 +104,13 @@ public class Customer extends Person{
 
     public void setProfession(Profession profession) {
         this.profession = profession;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

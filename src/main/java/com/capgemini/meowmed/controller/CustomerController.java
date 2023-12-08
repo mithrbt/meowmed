@@ -1,18 +1,25 @@
 package com.capgemini.meowmed.controller;
 
+import javax.mail.Multipart;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import com.capgemini.meowmed.model.Contract;
+import com.capgemini.meowmed.model.Image;
 import com.capgemini.meowmed.repository.ContractRepository;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.Customer;
 import com.capgemini.meowmed.repository.CustomerRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +55,9 @@ public class CustomerController {
 
 
     //Create customer
-    @PostMapping("/kunden")
+    @PostMapping( "/kunden")
     public Customer createCustomer(@Valid @RequestBody Customer customer){
-        return customerRepository.save(customer);
+            return customerRepository.save(customer);
     }
 
     //Update customer
@@ -85,5 +92,31 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    @PostMapping("/{customerId}/profile-picture")
+    public ResponseEntity<String> uploadProfilePicture(@PathVariable int customerId,
+                                                       @RequestParam("file") MultipartFile file) {
+        try {
+            Customer customer = customerRepository.findById(customerId).orElseThrow(EntityNotFoundException::new);
+            customer.setProfilePicture(file.getBytes());
+            customerRepository.save(customer);
+            return ResponseEntity.status(HttpStatus.OK).body("Profile picture uploaded successfully.");
+        } catch (IOException | EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture.");
+        }
+    }
+
+    @GetMapping("/{customerId}/profile-picture")
+    public ResponseEntity<byte[]> getProfilePicture(@PathVariable int customerId) {
+        byte[] picture = customerRepository.findById(customerId)
+                .map(Customer::getProfilePicture)
+                .orElse(null);
+
+        if (picture != null) {
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(picture);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

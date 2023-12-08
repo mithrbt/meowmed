@@ -31,7 +31,6 @@ public class Contract {
     //Jeder Vertrag kann nur einem Kunden zugeordnet werden, ein Kunde kann mehrere Vertäge haben
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
     private Customer customer;
 
     @OneToOne (mappedBy = "contract")
