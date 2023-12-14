@@ -98,17 +98,17 @@ public class CustomerController {
                                                        @RequestParam("file") MultipartFile file) {
         try {
             Customer customer = customerRepository.findById(customerId).orElseThrow(EntityNotFoundException::new);
-            customer.setProfilePicture(file.getBytes());
+            customer.setProfilePicture((Image) file);
             customerRepository.save(customer);
             return ResponseEntity.status(HttpStatus.OK).body("Profile picture uploaded successfully.");
-        } catch (IOException | EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture.");
         }
     }
 
     @GetMapping("/{customerId}/profile-picture")
-    public ResponseEntity<byte[]> getProfilePicture(@PathVariable int customerId) {
-        byte[] picture = customerRepository.findById(customerId)
+    public ResponseEntity<Image> getProfilePicture(@PathVariable int customerId) {
+        Image picture = customerRepository.findById(customerId)
                 .map(Customer::getProfilePicture)
                 .orElse(null);
 
@@ -118,5 +118,7 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
 }

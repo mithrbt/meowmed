@@ -7,12 +7,13 @@ import com.capgemini.meowmed.enums.Profession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "kunde")
-public class Customer extends Person{
+public class Customer extends Person implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   
@@ -35,26 +36,28 @@ public class Customer extends Person{
     @JsonIgnore
     private List<Cat> cats;
 
-    /*@OneToOne(mappedBy = "customer")
-    @JsonIgnore
-    private Image customerImage;*/
 
-    @Lob
+    /*@Lob
     @Column(name="profile_picture", nullable=false, columnDefinition="mediumblob")
-    private byte[] profilePicture;
+    private byte[] profilePicture;*/
+
+
+    @OneToOne(mappedBy = "customer", orphanRemoval = true)
+    @JsonIgnore
+    private Image profilePicture;
 
     public Customer(){
         super();
     }
 
-    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats, byte[] profilePicture) {
+    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats, Image image) {
         super(bankDetails, birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
         this.income = income;
         this.profession = profession;
         this.contracts = contracts;
         this.cats = cats;
         this.email = email;
-        this.profilePicture = profilePicture;
+        this.profilePicture = image;
     }
 
 
@@ -106,11 +109,11 @@ public class Customer extends Person{
         this.profession = profession;
     }
 
-    public byte[] getProfilePicture() {
+    public Image getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(Image profilePicture) {
         this.profilePicture = profilePicture;
     }
 }
