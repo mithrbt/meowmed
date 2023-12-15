@@ -36,14 +36,20 @@ public class Cat extends Animal {
     @JoinColumn(name= "breed_id")
     private Breed breed;
 
+    @OneToOne(mappedBy = "cat", orphanRemoval = true)
+    @JsonIgnore
+    private Image image;
 
-    public Cat(String name, LocalDate birthdate, float weight, boolean castrated, Color color, Personality personality, Environment environment, Contract contract, Customer customer, Breed breed) {
+    public Cat(String name, LocalDate birthdate, float weight, boolean castrated, Color color,
+               Personality personality, Environment environment, Contract contract, Customer customer,
+               Breed breed, Image image) {
         super(name, birthdate, weight, castrated, color);
         this.personality = personality;
         this.environment = environment;
         this.contract = contract;
         this.customer = customer;
         this.breed = breed;
+        this.image = image;
     }
 
     public Cat() {
@@ -97,5 +103,13 @@ public class Cat extends Animal {
 
     public void setContract(Contract contract) {
         this.contract = contract;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

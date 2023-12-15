@@ -16,4 +16,8 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     Optional<Image> findByName(String name);
 
     public void deleteByCustomerId(int customerId);
+
+    public void deleteByCatId(int catId);
+
+    public Optional<Image> findByCatId(int catID);
 }

@@ -1,8 +1,10 @@
 package com.capgemini.meowmed.controller;
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
+import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Customer;
 import com.capgemini.meowmed.model.Image;
+import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
 import com.capgemini.meowmed.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
-import javax.validation.Valid;
-import javax.ws.rs.PathParam;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Optional;
 
 @CrossOrigin("*")
@@ -31,8 +29,11 @@ public class ImageController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CatRepository catRepository;
+
     @PostMapping("/{customerID}/upload/image")
-    public ResponseEntity<ImageUploadResponse> uplaodImage(@PathVariable int customerID, @RequestParam("image") MultipartFile file)
+    public ResponseEntity<ImageUploadResponse> uploadImage(@PathVariable int customerID, @RequestParam("image") MultipartFile file)
             throws IOException {
         Customer customer = customerRepository.findById(customerID).
                 orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerID));
@@ -52,7 +53,7 @@ public class ImageController {
         imageRepository.save(image);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ImageUploadResponse("Image uploaded successfully: " +
+                .body(new ImageUploadResponse("Bild wurde hochgeladen: " +
                         file.getOriginalFilename()));
     }
 
@@ -87,5 +88,40 @@ public class ImageController {
         imageRepository.deleteByCustomerId(customerId);
     }
 
+    @PostMapping("/{catID}/upload/catimage")
+    public ResponseEntity<ImageUploadResponse> uploadCatImage(@PathVariable int catID, @RequestParam("image") MultipartFile file)
+            throws IOException {
+        Cat cat = catRepository.findById(catID).
+                orElseThrow(() -> new ResourceNotFoundException("Es gibt keine Katze mit der ID: " + catID));
 
+        Image image = new Image();
+        image.setName(file.getOriginalFilename());
+        image.setType(file.getContentType());
+        image.setImage(ImageUtility.compressImage(file.getBytes()));
+        image.setCat(cat);
+
+        imageRepository.save(image);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ImageUploadResponse("Bild wurde hochgeladen: " +
+                        file.getOriginalFilename()));
+    }
+
+    @GetMapping(path = {"/get/catImage/info/{catID}"})
+    public Image getCatImageDetails(@PathVariable int catID) throws IOException {
+
+        final Optional<Image> dbImage = imageRepository.findByCatId(catID);
+
+        return Image.builder()
+                .cat(dbImage.get().getCat())
+                .name(dbImage.get().getName())
+                .type(dbImage.get().getType())
+                .image(ImageUtility.decompressImage(dbImage.get().getImage())).build();
+    }
+
+    @Transactional
+    @DeleteMapping("/catImage/{catId}")
+    public void deleteCatImage(@PathVariable int catId) throws ResourceNotFoundException{
+        imageRepository.deleteByCatId(catId);
+    }
 }

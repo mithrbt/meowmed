@@ -32,5 +32,7 @@ public class Image {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-
+    @OneToOne
+    @JoinColumn(name = "cat_id")
+    private Cat cat;
 }
