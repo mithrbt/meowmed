@@ -79,7 +79,7 @@ public class CustomerController {
         customer.setIncome(customerDetails.getIncome());
         customer.setProfession(customerDetails.getProfession());
         customer.setBankDetails(customerDetails.getBankDetails());
-
+        customer.setTitle(customerDetails.getTitle());
 
         final Customer updateCustomer = customerRepository.save(customer);
         return ResponseEntity.ok(updateCustomer);

@@ -40,10 +40,6 @@ public class Person {
    @Column(name = "telefonnummer")
    private long telNr;
 
-   /*@Embedded
-   @Column(name = "titel")
-   private Title title;*/
-
     @Column(name = "familienstatus")
     private FamilyStatus familyStatus;
 
@@ -60,7 +56,6 @@ public class Person {
         this.taxID = taxID;
         this.svn = svn;
         this.telNr = telNr;
-        //this.title = title;
         this.familyStatus = familyStatus;
     }
 
@@ -136,14 +131,6 @@ public class Person {
     public void setTelNr(long telNr) {
         this.telNr = telNr;
     }
-
-    /*public Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(Title title) {
-        this.title = title;
-    }*/
 
     public FamilyStatus getFamilyStatus() {
         return familyStatus;
