@@ -109,6 +109,7 @@ public class ContractController {
         public Catract(Cat cat, Contract contract, Customer customer){
             this.cat = cat;
             this.contract = contract;
+            this.customer = customer;
         }
     }
 
@@ -128,7 +129,7 @@ public class ContractController {
 
         quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
 
-        if(catract.contract.getCustomer().getAddress().getZipCode().startsWith("7") || catract.contract.getCustomer().getAddress().getZipCode().startsWith("8")){
+        if(catract.customer.getAddress().getZipCode().startsWith("7") || catract.customer.getAddress().getZipCode().startsWith("8")){
             quote += (basicValue * 0.05);
         }
         if(age >= age25){
