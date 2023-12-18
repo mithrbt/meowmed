@@ -28,6 +28,9 @@ public class Customer extends Person implements Serializable {
     @Column(name = "e-mail")
     private String email;
 
+    @Column(name = "titel")
+    private String title;
+
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Contract> contracts;
@@ -35,12 +38,6 @@ public class Customer extends Person implements Serializable {
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Cat> cats;
-
-
-    /*@Lob
-    @Column(name="profile_picture", nullable=false, columnDefinition="mediumblob")
-    private byte[] profilePicture;*/
-
 
     @OneToOne(mappedBy = "customer", orphanRemoval = true)
     @JsonIgnore
@@ -50,7 +47,7 @@ public class Customer extends Person implements Serializable {
         super();
     }
 
-    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats, Image image) {
+    public Customer(String email, BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus, float income, Profession profession, List<Contract> contracts, List<Cat> cats, Image image, String title) {
         super(bankDetails, birthdate, address, firstname, lastname, taxID, svn, telNr, familyStatus);
         this.income = income;
         this.profession = profession;
@@ -58,6 +55,7 @@ public class Customer extends Person implements Serializable {
         this.cats = cats;
         this.email = email;
         this.profilePicture = image;
+        this.title = title;
     }
 
 
@@ -115,5 +113,13 @@ public class Customer extends Person implements Serializable {
 
     public void setProfilePicture(Image profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
