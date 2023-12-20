@@ -28,12 +28,12 @@ public class Cat extends Animal {
     private Contract contract;
 
     @ManyToOne
-    @JoinColumn(name= "customer_id")
+    @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name= "breed_id")
+    @JoinColumn(name = "breed_id")
     private Breed breed;
 
     @OneToOne(mappedBy = "cat", orphanRemoval = true)
@@ -105,9 +105,7 @@ public class Cat extends Animal {
         this.contract = contract;
     }
 
-    public Image getImage() {
-        return image;
-    }
+    public Image getImage() {return image;}
 
     public void setImage(Image image) {
         this.image = image;

@@ -17,12 +17,12 @@ public class BreedController {
     private BreedRepository breedRepository;
 
     @GetMapping("katze/rassen")
-    public List<Breed> getAllBreeds(){
+    public List<Breed> getAllBreeds() {
         return breedRepository.findAll();
     }
 
     @GetMapping("rassen/{rassenName}")
-    public Breed getBreedById(@PathVariable String rassenName) throws ResourceNotFoundException{
+    public Breed getBreedById(@PathVariable String rassenName) throws ResourceNotFoundException {
         return breedRepository.findBreedByName(rassenName);
     }
 }

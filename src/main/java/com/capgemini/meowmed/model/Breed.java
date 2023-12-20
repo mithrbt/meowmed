@@ -12,10 +12,10 @@ public class Breed {
     @Id
     private String name;
 
-    @Column(name ="min_gewicht")
+    @Column(name = "min_gewicht")
     private float minWeight;
 
-    @Column(name ="max_gewicht")
+    @Column(name = "max_gewicht")
     private float maxWeight;
 
     @Column(name = "min_alter")
@@ -32,7 +32,7 @@ public class Breed {
     private List<Cat> cats;
 
 
-    public Breed(String name, float min_weight,float max_weight, int minAverageAge, int maxAverageAge, double probabilityOfIllness) {
+    public Breed(String name, float min_weight, float max_weight, int minAverageAge, int maxAverageAge, double probabilityOfIllness) {
         this.name = name;
         this.minWeight = min_weight;
         this.maxWeight = max_weight;
@@ -41,7 +41,8 @@ public class Breed {
         this.probabilityOfIllness = probabilityOfIllness;
     }
 
-    public Breed() {}
+    public Breed() {
+    }
 
 
     public String getName() {
@@ -84,13 +85,9 @@ public class Breed {
         this.maxAverageAge = maxAverageAge;
     }
 
-    public List<Cat> getCats() {
-        return cats;
-    }
+    public List<Cat> getCats() {return cats;}
 
-    public void setCats(List<Cat> cats) {
-        this.cats = cats;
-    }
+    public void setCats(List<Cat> cats) {this.cats = cats;}
 
     public double getProbabilityOfIllness() {
         return probabilityOfIllness;

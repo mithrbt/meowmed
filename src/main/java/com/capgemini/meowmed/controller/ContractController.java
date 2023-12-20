@@ -6,24 +6,17 @@ import com.capgemini.meowmed.exception.ResourceNotFoundException;
 import com.capgemini.meowmed.model.*;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
-import com.capgemini.meowmed.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
 
 @CrossOrigin("*")
 @RestController
@@ -38,13 +31,13 @@ public class ContractController {
 
     //Get all contracts
     @GetMapping("/kunden/{customerID}/vertrag")
-    public List<Contract> getAllContractsByCustomerID(@PathVariable int customerID){
+    public List<Contract> getAllContractsByCustomerID(@PathVariable int customerID) {
         return contractRepository.findByCustomerId(customerID);
     }
 
     //get contract by ID
     @GetMapping("/vertrag/{contractID}")
-    public ResponseEntity<Contract> getContractById(@PathVariable int contractID) throws ResourceNotFoundException{
+    public ResponseEntity<Contract> getContractById(@PathVariable int contractID) throws ResourceNotFoundException {
 
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
@@ -65,25 +58,25 @@ public class ContractController {
         return new ResponseEntity<>(contract, HttpStatus.CREATED);
     }
 
+    //get customer by contract
     @GetMapping("/{contractID}/customer")
-    public Customer getCustomerByContractId(@PathVariable int contractID){
+    public Customer getCustomerByContractId(@PathVariable int contractID) {
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
         return contract.getCustomer();
     }
 
 
-
     //update contract
     @PutMapping("/vertrag/{contractID}")
-    public ResponseEntity<Contract> updateContract(@PathVariable int contractID, @Valid @RequestBody Contract contractRequest) throws ResourceNotFoundException{
+    public ResponseEntity<Contract> updateContract(@PathVariable int contractID, @Valid @RequestBody Contract contractRequest) throws ResourceNotFoundException {
         Contract contract = contractRepository.findById(contractID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Vertrag mit der ID: " + contractID));
 
         contract.setCoverage(contractRequest.getCoverage());
         contract.setEnd(contractRequest.getEnd());
         contract.setQuote(contractRequest.getQuote());
-        
+
 
         final Contract updateContract = contractRepository.save(contract);
         return ResponseEntity.ok(updateContract);
@@ -91,30 +84,32 @@ public class ContractController {
 
     //delete contract
     @DeleteMapping("/vertrag/{contractID}")
-    public void deleteContract(@PathVariable int contractID) throws ResourceNotFoundException{
+    public void deleteContract(@PathVariable int contractID) throws ResourceNotFoundException {
         contractRepository.deleteById(contractID);
     }
 
+    //delete all contracts by customer
     @Transactional
     @DeleteMapping("/vertraege/{customerID}")
-    public void deleteAllByCustomerID(@PathVariable int customerID) throws ResourceNotFoundException{
+    public void deleteAllByCustomerID(@PathVariable int customerID) throws ResourceNotFoundException {
         contractRepository.deleteByCustomerId(customerID);
     }
 
-    static class Catract{
+    static class Catract {
         public Cat cat;
         public Contract contract;
         public Customer customer;
 
-        public Catract(Cat cat, Contract contract, Customer customer){
+        public Catract(Cat cat, Contract contract, Customer customer) {
             this.cat = cat;
             this.contract = contract;
             this.customer = customer;
         }
     }
 
+    //calculation of the monthly contribution
     @PostMapping("vertrag/quote")
-    public double quote(@Valid @RequestBody Catract catract){
+    public double quote(@Valid @RequestBody Catract catract) {
         double min = 5;
         double quote = 0;
         LocalDate curDate = LocalDate.now();
@@ -123,33 +118,32 @@ public class ContractController {
         double basicValue = catract.cat.getColor() == Color.SCHWARZ ? min + catract.contract.getCoverage() * 0.0002
                 : min + catract.contract.getCoverage() * 0.00015;
 
-        
+
         double age25 = catract.cat.getBreed().getMaxAverageAge()
-                        - (catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25;
+                - (catract.cat.getBreed().getMaxAverageAge() - catract.cat.getBreed().getMinAverageAge()) * 0.25;
 
         quote += basicValue + catract.cat.getBreed().getProbabilityOfIllness();
 
-        if(catract.customer.getAddress().getZipCode().startsWith("7") || catract.customer.getAddress().getZipCode().startsWith("8")){
+        if (catract.customer.getAddress().getZipCode().startsWith("7") || catract.customer.getAddress().getZipCode().startsWith("8")) {
             quote += (basicValue * 0.05);
         }
-        if(age >= age25){
+        if (age >= age25) {
             quote += (basicValue * 0.2);
         }
-        if(catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()){
+        if (catract.cat.getWeight() > catract.cat.getBreed().getMaxWeight()) {
             double overweight = catract.cat.getWeight() - catract.cat.getBreed().getMaxWeight();
             quote += (overweight * 5);
         }
 
-        if(catract.cat.getEnvironment() == Environment.DRAUSSEN){
+        if (catract.cat.getEnvironment() == Environment.DRAUSSEN) {
             quote += (basicValue * 0.1);
         }
-        if(!catract.cat.isCastrated()){
+        if (!catract.cat.isCastrated()) {
             quote += 5;
         }
-        if(age <= 2){
+        if (age <= 2) {
             quote -= (basicValue * 0.1);
         }
-
 
         return quote;
     }

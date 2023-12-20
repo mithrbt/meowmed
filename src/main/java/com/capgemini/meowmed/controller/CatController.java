@@ -2,11 +2,9 @@ package com.capgemini.meowmed.controller;
 
 
 import com.capgemini.meowmed.exception.ResourceNotFoundException;
-import com.capgemini.meowmed.model.Breed;
 import com.capgemini.meowmed.model.Cat;
 import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.model.Customer;
-import com.capgemini.meowmed.repository.BreedRepository;
 import com.capgemini.meowmed.repository.CatRepository;
 import com.capgemini.meowmed.repository.ContractRepository;
 import com.capgemini.meowmed.repository.CustomerRepository;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -35,9 +31,6 @@ public class CatController {
     private ContractRepository contractRepository;
 
     @Autowired
-    private BreedRepository breedRepository;
-
-    @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
@@ -46,13 +39,13 @@ public class CatController {
 
     //get all cats
     @GetMapping("/kunden/{customerID}/katze")
-    public List<Cat> getAllCatsByCustomerID(@PathVariable int customerID){
+    public List<Cat> getAllCatsByCustomerID(@PathVariable int customerID) {
         return catRepository.findByCustomerId(customerID);
     }
 
     //get cat by ID
     @GetMapping("/katze/{catID}")
-    public ResponseEntity<Cat> getCatByID(@PathVariable int catID) throws ResourceNotFoundException{
+    public ResponseEntity<Cat> getCatByID(@PathVariable int catID) throws ResourceNotFoundException {
         Cat cat = catRepository.findById(catID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keine Katze mit der ID: " + catID));
 
@@ -61,7 +54,7 @@ public class CatController {
 
     //get cat by contract ID
     @GetMapping("/vertrag/{contractID}/katze")
-    public Cat getCatByContractID(@PathVariable int contractID) throws ResourceNotFoundException{
+    public Cat getCatByContractID(@PathVariable int contractID) throws ResourceNotFoundException {
         return catRepository.findCatByContractId(contractID);
     }
 
@@ -87,7 +80,7 @@ public class CatController {
 
     //update cat
     @PutMapping("/katze/{catID}")
-    public ResponseEntity<Cat> updateCat(@PathVariable int catID, @Valid @RequestBody Cat catRequest) throws ResourceNotFoundException{
+    public ResponseEntity<Cat> updateCat(@PathVariable int catID, @Valid @RequestBody Cat catRequest) throws ResourceNotFoundException {
         Cat cat = catRepository.findById(catID)
                 .orElseThrow(() -> new ResourceNotFoundException("Es gibt keine Katze mit der ID: " + catID));
 
@@ -100,16 +93,17 @@ public class CatController {
         return ResponseEntity.ok(updateCat);
     }
 
-
+    //delete cat by contract
     @Transactional
     @DeleteMapping("katze/{contractID}")
-    public void deleteCatByContractID(@PathVariable int contractID){
+    public void deleteCatByContractID(@PathVariable int contractID) {
         catRepository.deleteCatByContractId(contractID);
     }
 
+    //delete all cats by customer
     @Transactional
     @DeleteMapping("/kunde/{customerID}/katzen")
-    public void deleteAllByCustomerID(@PathVariable int customerID){
+    public void deleteAllByCustomerID(@PathVariable int customerID) {
         catRepository.deleteByCustomerId(customerID);
     }
 

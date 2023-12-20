@@ -1,5 +1,3 @@
-/* Customer Model Class */
-
 package com.capgemini.meowmed.model;
 
 import com.capgemini.meowmed.enums.FamilyStatus;

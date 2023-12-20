@@ -17,7 +17,7 @@ public class Animal {
     private String name;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name ="geburtsdatum")
+    @Column(name = "geburtsdatum")
     private LocalDate birthdate;
 
     @Column(name = "gewicht")
@@ -30,8 +30,7 @@ public class Animal {
     private Color color;
 
 
-
-    public Animal(){
+    public Animal() {
     }
 
     public Animal(String name, LocalDate birthdate, float weight, boolean castrated, Color color) {

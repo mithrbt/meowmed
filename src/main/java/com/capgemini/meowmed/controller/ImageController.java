@@ -32,18 +32,13 @@ public class ImageController {
     @Autowired
     private CatRepository catRepository;
 
+    //upload customer image
     @PostMapping("/{customerID}/upload/image")
     public ResponseEntity<ImageUploadResponse> uploadImage(@PathVariable int customerID, @RequestParam("image") MultipartFile file)
             throws IOException {
         Customer customer = customerRepository.findById(customerID).
                 orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerID));
 
-
-        /*imageRepository.save(Image.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .image(ImageUtility.compressImage(file.getBytes())).build()
-                .setCustomer(customer));*/
         Image image = new Image();
         image.setName(file.getOriginalFilename());
         image.setType(file.getContentType());
@@ -57,6 +52,7 @@ public class ImageController {
                         file.getOriginalFilename()));
     }
 
+    //get customer Image from db
     @GetMapping(path = {"/get/image/info/{customerID}"})
     public Image getImageDetails(@PathVariable int customerID) throws IOException {
 
@@ -70,7 +66,6 @@ public class ImageController {
     }
 
 
-
     @GetMapping(path = {"/get/image/{customerID}"})
     public ResponseEntity<byte[]> getImage(@PathVariable int customerID) throws IOException {
 
@@ -82,12 +77,14 @@ public class ImageController {
                 .body(ImageUtility.decompressImage(dbImage.get().getImage()));
     }
 
+    //delete customer Image
     @Transactional
     @DeleteMapping("/image/{customerId}")
-    public void deleteImage(@PathVariable int customerId) throws ResourceNotFoundException{
+    public void deleteImage(@PathVariable int customerId) throws ResourceNotFoundException {
         imageRepository.deleteByCustomerId(customerId);
     }
 
+    //upload cat Image
     @PostMapping("/{catID}/upload/catimage")
     public ResponseEntity<ImageUploadResponse> uploadCatImage(@PathVariable int catID, @RequestParam("image") MultipartFile file)
             throws IOException {
@@ -107,6 +104,7 @@ public class ImageController {
                         file.getOriginalFilename()));
     }
 
+    //get cat Image from db
     @GetMapping(path = {"/get/catImage/info/{catID}"})
     public Image getCatImageDetails(@PathVariable int catID) throws IOException {
 
@@ -119,9 +117,10 @@ public class ImageController {
                 .image(ImageUtility.decompressImage(dbImage.get().getImage())).build();
     }
 
+    //delete cat Image
     @Transactional
     @DeleteMapping("/catImage/{catId}")
-    public void deleteCatImage(@PathVariable int catId) throws ResourceNotFoundException{
+    public void deleteCatImage(@PathVariable int catId) throws ResourceNotFoundException {
         imageRepository.deleteByCatId(catId);
     }
 }

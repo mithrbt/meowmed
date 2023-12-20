@@ -1,7 +1,6 @@
 package com.capgemini.meowmed.model;
 
 import jakarta.persistence.Embeddable;
-import org.springframework.jdbc.datasource.AbstractDriverBasedDataSource;
 
 @Embeddable
 public class Address {
@@ -12,7 +11,9 @@ public class Address {
     private String street;
     private String houseNr;
 
-    public Address(){}
+    public Address() {
+    }
+
     public Address(String country, String city, String zipCode, String street, String houseNr) {
         this.country = country;
         this.city = city;

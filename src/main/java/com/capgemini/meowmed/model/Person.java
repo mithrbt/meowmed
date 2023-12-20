@@ -28,23 +28,24 @@ public class Person {
     @Column(name = "vorname")
     private String firstname;
 
-   @Column(name = "nachname")
-   private String lastname;
+    @Column(name = "nachname")
+    private String lastname;
 
-   @Column(name = "steuerID")
-   private long taxID;
+    @Column(name = "steuerID")
+    private long taxID;
 
-   @Column(name = "svn")
-   private String svn;
+    @Column(name = "svn")
+    private String svn;
 
-   @Column(name = "telefonnummer")
-   private long telNr;
+    @Column(name = "telefonnummer")
+    private long telNr;
 
     @Column(name = "familienstatus")
     private FamilyStatus familyStatus;
 
 
-    public Person(){}
+    public Person() {
+    }
 
 
     public Person(BankDetails bankDetails, Date birthdate, Address address, String firstname, String lastname, long taxID, String svn, long telNr, FamilyStatus familyStatus) {

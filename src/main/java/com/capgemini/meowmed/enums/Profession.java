@@ -8,7 +8,7 @@ public enum Profession {
 
     public final String label;
 
-    private Profession(String label){
+    private Profession(String label) {
         this.label = label;
     }
 }

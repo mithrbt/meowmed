@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface BreedRepository extends JpaRepository<Breed, String> {
-
-    public Breed findBreedByName(String breedName);
+    Breed findBreedByName(String breedName);
 }

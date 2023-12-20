@@ -3,8 +3,6 @@ package com.capgemini.meowmed.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Blob;
-
 
 @Entity
 @Table(name = "bild")

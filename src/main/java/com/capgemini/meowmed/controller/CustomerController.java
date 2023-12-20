@@ -1,13 +1,9 @@
 package com.capgemini.meowmed.controller;
 
-import javax.mail.Multipart;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
-import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.model.Image;
-import com.capgemini.meowmed.repository.ContractRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +15,6 @@ import com.capgemini.meowmed.model.Customer;
 import com.capgemini.meowmed.repository.CustomerRepository;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,45 +22,43 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
-    
+
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private ContractRepository contractRepository;
 
-
-    //Read all customers
+    //Get all customers
     @GetMapping("/kunden")
-    public List<Customer> getAllCustomers(){
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
 
     //Read customer by id
     @GetMapping("/kunden/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") int customerId) throws ResourceNotFoundException{
-        
-            Customer customer = customerRepository.findById(customerId)
-            .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerId));
+    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") int customerId) throws ResourceNotFoundException {
 
-            return ResponseEntity.ok().body(customer);
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerId));
+
+        return ResponseEntity.ok().body(customer);
     }
 
 
     //Create customer
-    @PostMapping( "/kunden")
-    public Customer createCustomer(@Valid @RequestBody Customer customer){
-            return customerRepository.save(customer);
+    @PostMapping("/kunden")
+    public Customer createCustomer(@Valid @RequestBody Customer customer) {
+        return customerRepository.save(customer);
     }
 
     //Update customer
     @PutMapping("/kunden/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") int customerId, @Valid @RequestBody Customer customerDetails) throws ResourceNotFoundException{
+    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") int customerId, @Valid @RequestBody Customer customerDetails) throws ResourceNotFoundException {
 
         Customer customer = customerRepository.findById(customerId)
-        .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerId));
+                .orElseThrow(() -> new ResourceNotFoundException("Es gibt keinen Kunden mit der ID: " + customerId));
 
+        customer.setTitle(customerDetails.getTitle());
         customer.setFirstname(customerDetails.getFirstname());
         customer.setLastname(customerDetails.getLastname());
         customer.setEmail(customerDetails.getEmail());
@@ -79,21 +71,20 @@ public class CustomerController {
         customer.setIncome(customerDetails.getIncome());
         customer.setProfession(customerDetails.getProfession());
         customer.setBankDetails(customerDetails.getBankDetails());
-        customer.setTitle(customerDetails.getTitle());
 
         final Customer updateCustomer = customerRepository.save(customer);
         return ResponseEntity.ok(updateCustomer);
     }
 
-    //Delete customer
+    //delete customer
     @DeleteMapping("/kunden/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteCustomer(@PathVariable(value = "id") int customerId) throws ResourceNotFoundException{
+    public ResponseEntity<Map<String, Boolean>> deleteCustomer(@PathVariable(value = "id") int customerId) throws ResourceNotFoundException {
         customerRepository.deleteById(customerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
+    //upload profile picture
     @PostMapping("/{customerId}/profile-picture")
     public ResponseEntity<String> uploadProfilePicture(@PathVariable int customerId,
                                                        @RequestParam("file") MultipartFile file) {
@@ -107,6 +98,7 @@ public class CustomerController {
         }
     }
 
+    //get profile picture
     @GetMapping("/{customerId}/profile-picture")
     public ResponseEntity<Image> getProfilePicture(@PathVariable int customerId) {
         Image picture = customerRepository.findById(customerId)
@@ -119,7 +111,4 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
 }

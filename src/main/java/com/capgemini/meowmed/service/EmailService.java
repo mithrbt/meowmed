@@ -1,9 +1,7 @@
 package com.capgemini.meowmed.service;
 
 import com.capgemini.meowmed.model.Cat;
-import com.capgemini.meowmed.model.Contract;
 import com.capgemini.meowmed.model.Customer;
-import com.capgemini.meowmed.repository.CatRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class EmailService {
@@ -23,15 +18,11 @@ public class EmailService {
     @Autowired
     private final JavaMailSender javaMailSender;
 
-    @Autowired
-    private CatRepository catRepository;
-
-
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
-
+    //send e-mail with attachment
     public void sendEmailWithAttachment(String to, Customer customer, Cat cat) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
